@@ -14,7 +14,7 @@ searchBtn.addEventListener('click', () => {
         movieDiv.innerHTML = ''
         const query = searchInput.value.trim()
         if(query !== '') {
-            fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${searchInput.value}`)
+            fetch(`https://www.omdbapi.com/?apikey=${apiKey}&s=${searchInput.value}`)
                 .then(res => res.json())
                 .then(data => {
                     if(data.Response){
@@ -37,7 +37,7 @@ searchBtn.addEventListener('click', () => {
 
 
 function renderMovieDetails(imdbID){
-    fetch(`http://www.omdbapi.com/?apikey=${apiKey}&i=${imdbID}&plot=short`)
+    fetch(`https://www.omdbapi.com/?apikey=${apiKey}&i=${imdbID}&plot=short`)
         .then(res => res.json())
         .then(data => {
             const ratings = data.Ratings.find(r => r.Source === 'Internet Movie Database')

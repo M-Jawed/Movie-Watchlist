@@ -14,7 +14,7 @@ function renderWatchlist() {
     } else {
         watchlistBody.innerHTML = '' 
         watchlist.forEach(imdbID => {
-            fetch(`http://www.omdbapi.com/?apikey=${apiKey}&i=${imdbID}`)
+            fetch(`https://www.omdbapi.com/?apikey=${apiKey}&i=${imdbID}`)
                 .then(res => res.json())
                 .then(data => {
                     const ratings = data.Ratings.find(r => r.Source === 'Internet Movie Database')
