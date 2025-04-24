@@ -1,3 +1,5 @@
+
+
 const apiKey = 'a16a9e59'
 const searchInput = document.getElementById('searchInput')
 const searchBtn = document.getElementById('searchBtn')
@@ -42,6 +44,11 @@ function renderMovieDetails(imdbID){
         .then(data => {
             const ratings = data.Ratings.find(r => r.Source === 'Internet Movie Database')
             const ratingsValue = ratings ? ratings.Value : 'N/A'
+            const watchlist = JSON.parse(localStorage.getItem('watchlist')) || []
+            const isInWatchlist = watchlist.includes(imdbID)
+
+            const buttonText = isInWatchlist ? 'Remove' : 'Watchlist'
+
             movieDiv.innerHTML += 
             `
             <div class="movie-list"> 
@@ -57,7 +64,7 @@ function renderMovieDetails(imdbID){
                     <div class="watchlist"> 
                         <p> ${data.Runtime} </p>
                         <p> ${data.Genre} </p>
-                        <button onclick="addToWatchlist('${data.imdbID}')"> <i class="fa-solid fa-circle-plus"></i> Watchlist </button>
+                        <button onclick="addToWatchlist('${data.imdbID}')" id="watchlist-btn-${imdbID}"> <i class="fa-solid fa-circle-plus"></i> Watchlist </button>
                     </div>
                     <div class="plot"> 
                         <p> ${data.Plot} </p>
@@ -70,6 +77,21 @@ function renderMovieDetails(imdbID){
             // ratings ? console.log(ratings.Value) : console.log('Ratings not found!')
             // console.log(data)   
         })
+}
+
+function toggleWatchlist(imdbID){
+    let watchlist = JSON.parse(localStorage.getItem('watchlist')) || []
+    const index = watchlist.indexOf(imdbID)
+
+    if(index === -1){
+        watchlist.push(imdbID)
+        localStorage.setItem('watchlist', JSON.stringify(watchlist))
+        document.getElementById(`watchlist-btn-${imdbID}`).textContent = 'Remove'
+    } else {
+        watchlist.splice(index, 1)
+        localStorage.getItem('watchlist', JSON.stringify(watchlist))
+        document.getElementById(`watchlist-btn-${imdbID}`).textContent = 'Watchlist'
+    } 
 }
 
 function addToWatchlist(imdbID){
